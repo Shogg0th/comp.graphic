@@ -1,5 +1,56 @@
+var plotter;
+
+
+document.onkeyup = function (event) {
+    let arrow = "Arrow";
+
+    let codes = [{
+        name: arrow + "Right",
+        offset: {
+            x: 10,
+            y: 0
+        }
+    },
+    {
+        name: arrow + "Down",
+        offset: {
+            x: 0,
+            y: -10
+        }
+    },
+
+    {
+        name: arrow + "Left",
+        offset: {
+            x: -10,
+            y: 0
+        }
+    },
+    {
+        name: arrow + "Up",
+        offset: {
+            x: 0,
+            y: 10
+        }
+    }]
+
+    if (plotter) {
+       
+        let cur = codes.filter(item => {
+            return item.name == event.code;
+        })[0];
+
+        if (cur)
+            plotter.move(cur.offset.x, -cur.offset.y);
+
+    }
+
+
+}
+
+
 window.onload = () => {
-    let plotter = new Plotter(document.querySelector(".graph"));
+    plotter = new Plotter(document.querySelector(".graph"));
     plotter.drawGrid();
     plotter.drawFigure();
 
@@ -38,12 +89,15 @@ window.onload = () => {
     }
 
     btn = document.querySelector("button[name='figure']");
+  
+
     btn.onclick = () => {
 
         let a = +document.querySelector('input[name="fA"]').value,
             r1 = +document.querySelector('input[name="fR1"]').value,
             r2 = +document.querySelector('input[name="fR2"]').value,
             r3 = +document.querySelector('input[name="fR3"]').value;
+
 
         plotter.init(a, r1, r2, r3);
     }
@@ -65,7 +119,7 @@ window.onload = () => {
             y = +document.querySelector('input[name="rY"]').value,
             angle = +document.querySelector('input[name="angle"]').value;
 
-        plotter.initRotate(x,y,angle);
+        plotter.initRotate(x, y, angle);
     }
 
 

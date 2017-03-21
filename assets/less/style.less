@@ -1,4 +1,5 @@
 @primary-color: #333;
+@accent-color: rgba(8, 84, 225, 0.72);
 @cell-color: #797979;
 @xy-color: #ccc;
 @figure-color: #0713f8;
@@ -9,16 +10,19 @@ body {
 
 .btn {
     width: 100%;
-    border: 1px solid lighten(@primary-color, 50%);
-    background-color: transparent;
+    border: 1px solid transparent;
+    background-color: lighten(@accent-color, 50%);
     font-weight: 600;
     padding: 5px;
-    &:hover {
+    line-height: 20px;
+    &:hover,
+    &focus {
+        transition: all ease 0.2s;
+        background-color: lighten(@accent-color, 10%);
         cursor: pointer;
+        color: #fff;
     }
     &:focus {
-        transition: all linear 0.3s;
-        border: 1px solid @primary-color;
         outline: none;
     }
 }
@@ -30,7 +34,7 @@ body {
     &:hover,
     &:focus {
         transition: all linear 0.3s;
-        border-bottom: 1px solid @primary-color;
+        border-bottom: 1px solid @accent-color;
     }
     &:focus {
         outline: none;
@@ -39,7 +43,6 @@ body {
 
 .form-group {
     display: flex;
-    border: 1px dashed lighten(@primary-color, 50%);
     padding: 3px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -61,6 +64,7 @@ body {
     flex-direction: row-reverse;
     align-items: center;
     .controls-wrapper {
+        z-index: 10;
         height: 100vh;
         display: flex;
         flex-flow: column wrap-reverse;
@@ -69,6 +73,20 @@ body {
         .row {
             margin-left: 10px;
             margin-bottom: 10px;
+            box-shadow: 0 0 15px -3px @accent-color;
+            .form-group {
+                padding-left: 10px;
+            }
+            .title {
+                background-color: @accent-color;
+                line-height: 30px;
+                padding-left: 10px;
+                text-align: center;
+                color: #fff;
+            }
+            .btn {
+                width: 100%;
+            }
         }
     }
     .graph-wrapper {
@@ -98,9 +116,14 @@ body {
             stroke-width: 2;
             opacity: .5;
         }
+        line.arrow {
+            stroke: @cell-color;
+            stroke-width: 2;
+        }
         g[role=figure] {
             cursor: pointer;
         }
+        .grid-font {}
     }
     .labels {
         font-size: 13px;

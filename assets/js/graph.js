@@ -285,6 +285,38 @@ class Plotter {
         return g;
     }
 
+    drawText(x, y, text, brush) {
+
+        if (this.useAff || this.useProject) {
+            return;
+        }
+
+        let p = this.getPoint(x, y);
+
+        let textF = this.create('text', {
+            x: p.x,
+            y: p.y,
+            "class": brush
+        });
+
+        textF.append(text);
+
+        return textF;
+    }
+
+    drawArrow(x, y, angle, brush, denyRotation) {
+        let r = 10,
+            _angle = 20,
+            g = this.create('g');
+
+        debugger;
+
+        g.append(this.drawLine(x, Math.cos(Math.PI * (angle + _angle) / 180) * r + x, y, Math.sin(Math.PI * (angle + _angle) / 180) * r + y, brush, denyRotation));
+        g.append(this.drawLine(x, Math.cos(Math.PI * (angle - _angle) / 180) * r + x, y, Math.sin(Math.PI * (angle - _angle) / 180) * r + y, brush, denyRotation));
+
+        return g;
+    }
+
     drawGrid() {
 
         if (this.grid) {
@@ -294,10 +326,22 @@ class Plotter {
         let g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         g.setAttribute('role', 'grid');
 
+        let cl = 'grid',
+            main = 'main';
 
+
+        g.appendChild(this.drawLine(this.x0, this.x0, this.minY, this.maxY, main, true));
+        g.append(this.drawArrow(this.x0, this.minY, 90, 'arrow', true));
+        g.append(this.drawText(this.x0 - 10, this.y0 + 15, 0, 'grid-font', true));
+        g.appendChild(this.drawLine(this.minX, this.maxX, this.y0, this.y0, main, true));
+        g.append(this.drawArrow(this.maxX, this.y0, 180, 'arrow', true));
+
+        g.append(this.drawText(this.maxX + 5, this.y0 + 15, 'x', 'grid-font', true));
+        g.append(this.drawText(this.x0 - 10, this.minY - 5, 'y', 'grid-font', true));
 
         for (let x = this.minX; x < this.max - 15; x += 15) {
-            let cl = 'grid';
+
+
             // if (Math.abs(x - 30 - (this.maxX - this.minX) / 2.0) < 15) {
             //     cl = 'main';
             // }
@@ -305,7 +349,7 @@ class Plotter {
         }
 
         for (let y = this.minY; y < this.max - 15; y += 15) {
-            let cl = 'grid';
+
             // if (Math.abs(y - 30 - (this.maxY - this.minY) / 2.0) < 15) {
             //     cl = 'main';
             // }
@@ -316,6 +360,8 @@ class Plotter {
         this.grid = g;
         this.svg.prepend(g);
     }
+
+
 
     initRotate(x, y, angle) {
         if (x != null && y != null && angle != null) {
@@ -347,6 +393,7 @@ class Plotter {
         }
     }
 
+
     initProjective(pX0, pY0, pW0, pXx, pXy, pWx, pYx, pYy, pWy) {
 
         this.projectiveConfig = {
@@ -366,8 +413,8 @@ class Plotter {
 
     aff(point) {
         let par = 7,
-            oldX = point.x - par * 50,
-            oldY = point.y - par * 50,
+            oldX = this.max - point.x - par * 50,
+            oldY = this.max - point.y - par * 50,
             x = (this.affConfig.a * oldX + this.affConfig.b * oldY) + par * 50,
             y = (this.affConfig.c * oldX + this.affConfig.d * oldY) + par * 50;
 
@@ -387,7 +434,7 @@ class Plotter {
         x = (proj.pX0 * proj.pW0 + proj.pXx * proj.pWx * point.x + proj.pYx * proj.pWy * point.y)
             / (proj.pW0 + proj.pWx * point.x + proj.pWy * point.y);
 
-        y = this.max - (proj.pY0 * proj.pW0 + proj.pXy * proj.pWx * point.x + proj.pYy * proj.pWy * point.y)
+        y = (proj.pY0 * proj.pW0 + proj.pXy * proj.pWx * point.x + proj.pYy * proj.pWy * point.y)
             / (proj.pW0 + proj.pWx * point.x + proj.pWy * point.y);
 
         if (isNaN(x) || isNaN(y)) {
@@ -401,10 +448,8 @@ class Plotter {
 
     rotate(point) {
         let conf = this.rotateConfig,
-            par = 7,
             x = point.x,
             y = point.y,
-            scale = 50,
             rad = Math.PI * conf.angle / 180.0;
 
         x = conf.x + (x - conf.x) * Math.cos(rad) - (y - conf.y) * Math.sin(rad);

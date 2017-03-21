@@ -59,7 +59,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('serve', function () {
-    var server = plugins.serve.static('/', 8080);
+    var server = plugins.serve.static('/', 1488);
     server.start();
     gulp.watch(['build/*','index.html'], function (file) {
         server.notify.apply(server, [file]);
