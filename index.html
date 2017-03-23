@@ -18,6 +18,8 @@
 <body>
 
     <div class="container">
+
+
         <div class="controls-wrapper">
             <div class="row">
                 <button class="btn" name="restore" onclick="app.restore()">Restore</button>
@@ -26,19 +28,19 @@
             <div class="row">
                 <div class="title">Figure size</div>
                 <div class="form-group">
-                    <label>A</label>
+                    <label>A (:9)</label>
                     <input type="number" name="fA" value="90" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label>R1</label>
+                    <label>R1 (:4)</label>
                     <input type="number" name="fR1" value="40" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label>R2</label>
+                    <label>R2 (:2)</label>
                     <input type="number" name="fR2" value="20" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label>R3</label>
+                    <label>R3 (:3)</label>
                     <input type="number" name="fR3" value="30" class="form-control">
                 </div>
 
@@ -139,6 +141,8 @@
                 <button name="projective" class="btn" onclick="app.projective()">Take</button>
             </div>
         </div>
+
+
         <div class="graph-wrapper">
             <svg class="graph" height="510" width="510">
                 <!--<g class="grid x-grid">
@@ -159,7 +163,11 @@
             </g>-->
             </svg>
         </div>
-
+        <div class="img-wrapper">
+            <div class="title">Prototype</div>
+            <img src="https://pp.userapi.com/c836522/v836522080/2d915/nfSq278o6No.jpg"
+                alt="">
+        </div>
     </div>
 
     <!-- Scripts -->

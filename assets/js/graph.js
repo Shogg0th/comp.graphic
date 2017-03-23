@@ -309,7 +309,7 @@ class Plotter {
             _angle = 20,
             g = this.create('g');
 
-        debugger;
+     
 
         g.append(this.drawLine(x, Math.cos(Math.PI * (angle + _angle) / 180) * r + x, y, Math.sin(Math.PI * (angle + _angle) / 180) * r + y, brush, denyRotation));
         g.append(this.drawLine(x, Math.cos(Math.PI * (angle - _angle) / 180) * r + x, y, Math.sin(Math.PI * (angle - _angle) / 180) * r + y, brush, denyRotation));

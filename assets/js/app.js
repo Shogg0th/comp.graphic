@@ -35,7 +35,7 @@ document.onkeyup = function (event) {
     }]
 
     if (plotter) {
-       
+
         let cur = codes.filter(item => {
             return item.name == event.code;
         })[0];
@@ -89,17 +89,29 @@ window.onload = () => {
     }
 
     btn = document.querySelector("button[name='figure']");
-  
+
 
     btn.onclick = () => {
 
-        let a = +document.querySelector('input[name="fA"]').value,
-            r1 = +document.querySelector('input[name="fR1"]').value,
-            r2 = +document.querySelector('input[name="fR2"]').value,
-            r3 = +document.querySelector('input[name="fR3"]').value;
+        let tags = [{ tag: "fA", div: 9 }, { tag: "fR1", div: 4 }, { tag: "fR2", div: 2 }, { tag: "fR3", div: 3 }],
+            values = [];
 
+        tags.map(tag => {
 
-        plotter.init(a, r1, r2, r3);
+            let inp = document.getElementsByName(tag.tag)[0],
+                val = +inp.value;
+
+            if (val % tag.div !== 0) {
+                inp.classList.add("form-invalid");
+            }
+            else {
+                inp.classList.remove("form-invalid");
+                values.push(val);
+            }
+        })
+
+        if (values.length === 4)
+            plotter.init.apply(plotter, values);
     }
 
     btn = document.querySelector("button[name='offset']");
