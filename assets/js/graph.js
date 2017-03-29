@@ -425,6 +425,9 @@ class Plotter {
 
     projective(point) {
 
+        point.x -= this.x0;
+        point.y -= this.y0;
+
         let proj = this.projectiveConfig,
             x, y;
         // proj.pX0 *= this.unit; proj.pY0 *= this.unit;
@@ -432,14 +435,12 @@ class Plotter {
         // proj.pYx *= this.unit; proj.pYy *= this.unit;
 
         x = (proj.pX0 * proj.pW0 + proj.pXx * proj.pWx * point.x + proj.pYx * proj.pWy * point.y)
-            / (proj.pW0 + proj.pWx * point.x + proj.pWy * point.y);
+            / (proj.pW0 + proj.pWx * point.x + proj.pWy * point.y) + this.x0;
 
         y = (proj.pY0 * proj.pW0 + proj.pXy * proj.pWx * point.x + proj.pYy * proj.pWy * point.y)
-            / (proj.pW0 + proj.pWx * point.x + proj.pWy * point.y);
+            / (proj.pW0 + proj.pWx * point.x + proj.pWy * point.y) + this.y0;
 
-        if (isNaN(x) || isNaN(y)) {
-            throw new Error("NAAAAAAAN");
-        }
+     
 
         return { x, y };
     }
